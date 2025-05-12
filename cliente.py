@@ -2,17 +2,32 @@ import requests
 
 def comprobar_estado():
     """
-    Realiza una petición GET a https://api.ejemplo.com/estado y verifica el estado de la conexión.
+    Estoy haciendo una funcion que haga una  petición GET  y verifica el estado de la conexión.
 
-    Returns:
-        str: "O.K" si el código de respuesta es 200, de lo contrario "FALLO DE CONEXION".
+    Devuelve:
+        Un string: "O.K" si el código de respuesta es 200, de lo contrario si es un erro 404 o 500 da "error".
     """
     url = "https://api.ejemplo.com/estado"
     try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            return "O.K"
+        # Realiza la petición GET.
+        respuesta = requests.get(url)
+               
+        codigo_respuesta = respuesta.status_code
+                
+        # Verifica si el código de respuesta es 200.
+        if codigo_respuesta == 200:
+            resultado = "O.K"
         else:
-            return "FALLO DE CONEXION"
-    except requests.exceptions.RequestException:
+            resultado = "error"
+    except requests.exceptions.Timeout:
+        
         return "FALLO DE CONEXION"
+    except requests.exceptions.ConnectionError:
+        
+        return "FALLO DE CONEXION"
+    except requests.exceptions.RequestException:
+        
+        resultado = "FALLO DE CONEXION"
+    
+    
+    return resultado
